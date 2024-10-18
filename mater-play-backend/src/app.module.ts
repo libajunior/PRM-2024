@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Movie } from './entities/movie-entity';
+import { MovieController } from './controllers/movie-controller';
+import { MovieService } from './services/movie-service';
 
 @Module({
   imports: [
@@ -14,11 +17,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: process.env.DB_NAME,
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
-      entities: [],
+      entities: [Movie],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([Movie]),
   ],
-  controllers: [],
-  providers: [],
+  controllers: [MovieController],
+  providers: [MovieService],
 })
 export class AppModule {}
