@@ -4,6 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Movie } from './entities/movie-entity';
 import { MovieController } from './controllers/movie-controller';
 import { MovieService } from './services/movie-service';
+import { Category } from './entities/category-entity';
+import { CategoryController } from './controllers/category-controller';
+import { CategoryService } from './services/category-service';
 
 @Module({
   imports: [
@@ -17,12 +20,12 @@ import { MovieService } from './services/movie-service';
       database: process.env.DB_NAME,
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
-      entities: [Movie],
+      entities: [Category, Movie],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Movie]),
+    TypeOrmModule.forFeature([Category, Movie]),
   ],
-  controllers: [MovieController],
-  providers: [MovieService],
+  controllers: [CategoryController, MovieController],
+  providers: [CategoryService, MovieService],
 })
 export class AppModule {}

@@ -13,7 +13,7 @@ const getMoviesById = async (id: string): Promise<IMovie> => {
   return data;
 } 
 
-export const MoviesService = {
+export const MovieService = {
   getMovies,
   getMoviesById
 }
