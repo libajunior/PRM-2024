@@ -1,13 +1,36 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { MovieService } from "../../services/movie-service";
+import { IMovie } from "../../@libs/types";
 
 function HighLightSection() {
+
+  const params = useParams();
+
+  const [movie, setMovie] = useState<IMovie>({} as IMovie);
+
+  useEffect(()=>{
+
+    const movieId = (params.id) ? params.id : '5a420a78-8b19-42e5-9dee-1f257ebb5401'
+    
+    MovieService.getMoviesById(movieId)
+      .then(result => {
+        if (result) setMovie(result);
+      })
+      .catch(error => {
+        console.log('PAU: ', error)
+      })
+
+  },[params]);
+
   return (
     <Box>
       <Container>
         <Stack
           direction="row"
         >
-          <img src="assets/house-of-dragons-poster.jpg" />
+          <img src={`assets/${movie.poster}`} />
           <Stack
             sx={{
               justifyContent: 'center',
@@ -17,7 +40,7 @@ function HighLightSection() {
             <Typography
               variant="h4"
             >
-              A Casa do Dragão
+              {movie.title}
             </Typography>
             <Typography
               variant="subtitle2"
@@ -30,7 +53,7 @@ function HighLightSection() {
                   marginRight: '0.3rem'
                 }}
               >
-                16
+                {movie.ageRating}
               </span>
               Aventura, Fantasia, Ação
             </Typography>
@@ -46,7 +69,7 @@ function HighLightSection() {
             <Typography
               variant="body2"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum maxime pariatur numquam deserunt ea veritatis, consectetur nam porro provident consequuntur, debitis fugit dolores nobis distinctio, alias ex modi harum doloribus?
+              {movie.description}
             </Typography>
             <Stack
               gap={1}
