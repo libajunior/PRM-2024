@@ -1,3 +1,7 @@
+export interface IGenre {
+  id?: number;
+  name: string;
+}
 export interface ICategory {
   id?: number;
   name: string;
@@ -9,4 +13,6 @@ export interface IMovie {
   description: string;
   poster: string;
   ageRating: string;
+  categories: ICategory[];
+  genres: IGenre[];
 }
