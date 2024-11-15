@@ -55,14 +55,16 @@ function SideForm({
             {title}
           </Typography>
           <Divider />
-          <Box
+          <Stack
+            direction="column"
+            gap="1rem"
             sx={{
               marginTop: '2rem',
               padding: '1rem'
             }}
           >
             {children}
-          </Box>
+          </Stack>
         </Box>
         <Stack
           direction="row"
