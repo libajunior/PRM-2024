@@ -6,7 +6,7 @@ import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { ICategory } from "../../../@libs/types";
 import { CategoryService } from "../../../services/category.service";
-
+import { toast } from "react-toastify";
 import ActionsMenu from "../../components/ui/action-menu";
 
 //Definições das colunas
@@ -51,6 +51,7 @@ export function CategoryDataGrid() {
       .then(result => {
         setCategories(result.data)
       })
+      .catch(error => toast.error(String(error)))
   }, [location]);
 
   return (

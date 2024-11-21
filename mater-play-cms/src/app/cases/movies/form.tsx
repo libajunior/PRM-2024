@@ -1,14 +1,13 @@
-import BackupOutlined from '@mui/icons-material/BackupOutlined';
-import { Stack, TextField, Typography } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ICategory, IGenre, IMovie } from "../../../@libs/types";
 import { CategoryService } from "../../../services/category.service";
 import { GenreService } from "../../../services/genre.service";
 import { MovieService } from "../../../services/movie.service";
-import SideForm from "../../components/ui/side-form";
 import { MultiSelect } from '../../components/ui/multi-select';
+import SideForm from "../../components/ui/side-form";
+import { toast } from "react-toastify";
 
 type MovieFormProps = {
   movie: IMovie;
@@ -30,24 +29,34 @@ export function MovieForm({
   const [categories, setCategories] = useState<ICategory[]>([]);
 
   const handleDelete = () => {
+    setLoading(true)
+
     if (movie.id) {
       MovieService.remove(movie.id)
         .then(() => {
           navigate('/movies');
         })
+        .catch(error => toast.error(String(error)))
+        .finally(() => setLoading(false))
     }
   }
   const handleSave = () => {
+    setLoading(true);
+
     if (movie.id) {
       MovieService.update(movie.id, movie)
         .then(() => {
           navigate('/movies');
         })
+        .catch(error => toast.error(String(error)))
+        .finally(() => setLoading(false))
     } else {
       MovieService.create(movie)
         .then(() => {
           navigate('/movies');
         })
+        .catch(error => toast.error(String(error)))
+        .finally(() => setLoading(false))
     }
   }
 
@@ -68,6 +77,7 @@ export function MovieForm({
       title="Cadastro de Filmes"
       onSave={handleSave}
       {...(movie.id && { onDelete: handleDelete })}
+      loading={loading}
     >
       <TextField
         label="Título do Filme"
@@ -104,6 +114,27 @@ export function MovieForm({
         items={categories}
         label="Categorias"
       />
+      <Stack
+        direction="row"
+      >
+        <FormControl
+          size="small"
+          fullWidth
+        >
+          <InputLabel>Classificação</InputLabel>
+          <Select
+            label="Classificação"
+            value={movie.ageRating || ''}
+            onChange={(event) => setMovie({ ...movie, ageRating: event.target.value })}            
+          >
+            <MenuItem value="L">Livre</MenuItem>
+            <MenuItem value="12">12</MenuItem>
+            <MenuItem value="14">14</MenuItem>
+            <MenuItem value="16">16</MenuItem>
+            <MenuItem value="18">18</MenuItem>
+          </Select>
+        </FormControl>
+      </Stack>
       <TextField
         label="Poster"
         variant="outlined"
@@ -112,8 +143,8 @@ export function MovieForm({
         onChange={(event) => setMovie({ ...movie, poster: event.target.value })}
         fullWidth
         required
-        autoFocus
       />
+      {JSON.stringify(movie)}
     </SideForm>
   )
 }

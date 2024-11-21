@@ -8,7 +8,7 @@ function MovieLayout() {
   const navigate = useNavigate();
 
   const handleCreate = () => {
-    navigate('/movies/novo')
+    navigate('/movies/new')
   }
 
   return (

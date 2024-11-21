@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Paper } from "@mui/material";
 import { ptBR } from '@mui/x-data-grid/locales';
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-
+import { toast } from "react-toastify";
 import { IGenre } from "../../../@libs/types";
 import { GenreService } from "../../../services/genre.service";
 
@@ -51,6 +51,7 @@ export function GenreDataGrid() {
       .then(result => {
         setGenres(result.data)
       })
+      .catch(error => toast.error(String(error)))
   }, [location]);
 
   return (

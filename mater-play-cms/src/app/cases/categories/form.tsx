@@ -3,7 +3,8 @@ import { TextField } from "@mui/material";
 import { ICategory } from "../../../@libs/types";
 import { CategoryService } from "../../../services/category.service";
 import SideForm from "../../components/ui/side-form";
-
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 type CategoryFormProps = {
   category: ICategory;
@@ -18,25 +19,38 @@ export function CategoryForm({
 
   const navigate = useNavigate();
 
+  //State - Loading
+  const [loading, setLoading] = useState(false);
+
   const handleDelete = () => {
+    setLoading(true)
+    
     if (category.id) {
       CategoryService.remove(category.id)
         .then(() => {
           navigate('/categories');
         })
+        .catch(error => toast.error(String(error)))
+        .finally(() => setLoading(false))
     }
   }
   const handleSave = () => {
+    setLoading(true)
+    
     if (category.id) {
       CategoryService.update(category.id, category)
         .then(() => {
           navigate('/categories');
         })
+        .catch(error => toast.error(String(error)))
+        .finally(() => setLoading(false))
     } else {
       CategoryService.create(category)
         .then(() => {
           navigate('/categories');
         })
+        .catch(error => toast.error(String(error)))
+        .finally(() => setLoading(false))
     }
   }
 
@@ -46,6 +60,7 @@ export function CategoryForm({
       title="Cadastro de Categoria"
       onSave={handleSave}
       {...(category.id && { onDelete: handleDelete })}
+      loading={loading}
     >
       <TextField
         label="Nome Categoria"

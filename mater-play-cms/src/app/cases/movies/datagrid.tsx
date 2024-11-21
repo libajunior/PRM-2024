@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Chip, Paper, Stack } from "@mui/material";
 import { ptBR } from '@mui/x-data-grid/locales';
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-
+import { toast } from "react-toastify";
 import { IGenre, IMovie } from "../../../@libs/types";
 import { MovieService } from "../../../services/movie.service";
 
@@ -75,6 +75,7 @@ export function MovieDataGrid() {
       .then(result => {
         setMovies(result.data)
       })
+      .catch(error => toast.error(String(error)))
   }, [location]);
 
   return (

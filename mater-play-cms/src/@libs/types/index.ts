@@ -1,9 +1,3 @@
-export interface IAgeRating {
-  id?: number;
-  name: string;
-  description: string;
-}
-
 export interface IGenre {
   id?: string;
   name: string;
@@ -20,7 +14,7 @@ export interface IMovie {
   title: string;
   description: string;
   poster: string;
-  ageRating: IAgeRating;
+  ageRating: string;
   categories?: ICategory[];
   genres?: IGenre[];
 }

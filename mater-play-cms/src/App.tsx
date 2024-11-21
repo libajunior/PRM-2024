@@ -10,6 +10,7 @@ import { GenreEdit } from "./app/cases/genres/edit"
 import MovieLayout from "./app/cases/movies/layout"
 import { MovieCreate } from "./app/cases/movies/create"
 import { MovieEdit } from "./app/cases/movies/edit"
+import { ToastContainer } from "react-toastify"
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
           </Route>
         </Routes>
       </main>
+      <ToastContainer />
     </div>
   )
 }

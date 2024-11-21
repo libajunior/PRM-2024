@@ -6,7 +6,8 @@ export function MovieCreate() {
   const [movie, setMovie] = useState<IMovie>({
     title: '',
     description: '',
-    poster: ''
+    poster: '',
+    ageRating: '',
   });
 
   return (

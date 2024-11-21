@@ -2,20 +2,23 @@ import { Stack, Drawer, Typography, Box, Button, IconButton, Tooltip, Divider } 
 import { ReactNode } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useLocation, useNavigate } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
 
 type SideFormProps = {
   open: boolean;
   title: string;
   onSave?: () => void;
   onDelete?: () => void;
-  children: ReactNode
+  children: ReactNode;
+  loading: boolean;
 }
 function SideForm({
   open,
   title,
   onSave,
   onDelete,
-  children
+  children,
+  loading
 }: SideFormProps) {
 
   const navigate = useNavigate();
@@ -78,15 +81,17 @@ function SideForm({
             direction="row"
             gap={1}
           >
-            <Button
+            <LoadingButton            
               variant="contained"
               onClick={onSave}
+              loading={loading}
             >
               Salvar
-            </Button>
+            </LoadingButton>
             <Button
               variant="text"
               onClick={handleCancel}
+              disabled={loading}
             >
               Cancelar
             </Button>
@@ -98,6 +103,7 @@ function SideForm({
               <IconButton
                 color="error"
                 onClick={onDelete}
+                disabled={loading}
               >
                 <DeleteIcon />
               </IconButton>
