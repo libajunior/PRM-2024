@@ -123,15 +123,16 @@ export function MovieForm({
         >
           <InputLabel>Classificação</InputLabel>
           <Select
-            label="Classificação"
+            label="Classificação Etária"
             value={movie.ageRating || ''}
             onChange={(event) => setMovie({ ...movie, ageRating: event.target.value })}            
           >
-            <MenuItem value="L">Livre</MenuItem>
-            <MenuItem value="12">12</MenuItem>
-            <MenuItem value="14">14</MenuItem>
-            <MenuItem value="16">16</MenuItem>
-            <MenuItem value="18">18</MenuItem>
+            <MenuItem value="L">Livre para todas as idades</MenuItem>
+            <MenuItem value="10">Não recomendado para menores de 10 anos</MenuItem>
+            <MenuItem value="12">Não recomendado para menores de 12 anos</MenuItem>
+            <MenuItem value="14">Não recomendado para menores de 14 anos</MenuItem>
+            <MenuItem value="16">Não recomendado para menores de 16 anos</MenuItem>
+            <MenuItem value="18">Não recomendado para menores de 18 anos</MenuItem>
           </Select>
         </FormControl>
       </Stack>
@@ -144,7 +145,6 @@ export function MovieForm({
         fullWidth
         required
       />
-      {JSON.stringify(movie)}
     </SideForm>
   )
 }
