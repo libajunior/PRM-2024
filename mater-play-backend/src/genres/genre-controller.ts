@@ -55,7 +55,7 @@ export class GenreController {
 
   @Delete(':id')
   @HttpCode(204)
-  async remove(id: string): Promise<void> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const found = await this.service.findById(id);
 
     if (!found)
