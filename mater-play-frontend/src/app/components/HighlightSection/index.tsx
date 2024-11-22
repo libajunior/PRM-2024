@@ -30,7 +30,7 @@ function HighLightSection() {
         <Stack
           direction="row"
         >
-          <img src={`assets/${movie.poster}`} />
+          <img src={`${import.meta.env.VITE_SUPABASE_STORAGE_URL}/${movie.poster}`} />
           <Stack
             sx={{
               justifyContent: 'center',

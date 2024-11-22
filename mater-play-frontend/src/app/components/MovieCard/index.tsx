@@ -12,13 +12,10 @@ function MovieCard({
       component="a"
       elevation={0}
       href={movie.id}
-      sx={{
-        minWidth: '10rem'
-      }}
     >
-      <img src={`assets/${movie.poster}`}
+      <img src={`${import.meta.env.VITE_SUPABASE_STORAGE_URL}/${movie.poster}`}
         style={{
-          width: '100%'
+          width: '180px'
         }}
       />
     </Paper>

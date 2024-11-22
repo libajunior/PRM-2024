@@ -37,7 +37,7 @@ function Section({
         </Typography>
         <Stack
           direction="row"
-          gap={0.5}
+          gap={1}
           sx={{
             overflowY: 'hidden',
             whiteSpace: 'nowrap',
@@ -47,7 +47,6 @@ function Section({
           {movies.map(item => (
             <MovieCard key={item.id} movie={item} />
           ))}
-
         </Stack>
       </Container>
     </Box>
