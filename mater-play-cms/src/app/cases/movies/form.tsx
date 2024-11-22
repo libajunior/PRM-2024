@@ -1,5 +1,5 @@
-import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ICategory, IGenre, IMovie } from "../../../@libs/types";
 import { CategoryService } from "../../../services/category.service";
@@ -8,6 +8,8 @@ import { MovieService } from "../../../services/movie.service";
 import { MultiSelect } from '../../components/ui/multi-select';
 import SideForm from "../../components/ui/side-form";
 import { toast } from "react-toastify";
+import { LoadingButton } from "@mui/lab";
+import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 
 type MovieFormProps = {
   movie: IMovie;
@@ -71,6 +73,28 @@ export function MovieForm({
         setCategories(result.data)
       })
   }, [])
+
+  const handleChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+
+    setLoading(true);
+
+    if (files && files[0]) {
+      const file = files[0];
+
+      MovieService.upload(file)
+        .then(result => {
+          if (result.data) {
+            const { fullPath } = result.data;
+            setMovie({...movie, poster: fullPath});
+            toast.success('Arquivo carregado com sucesso')
+          }
+        })
+        .catch(error => toast.error(String(error)))
+        .finally(() => setLoading(false));
+    }
+  }
+
   return (
     <SideForm
       open={showForm}
@@ -136,15 +160,49 @@ export function MovieForm({
           </Select>
         </FormControl>
       </Stack>
-      <TextField
-        label="Poster"
-        variant="outlined"
-        size="small"
-        value={movie.poster || ''}
-        onChange={(event) => setMovie({ ...movie, poster: event.target.value })}
-        fullWidth
-        required
-      />
+      <fieldset className="form-fieldset">
+        <legend>
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'rgba(0,0,0,0,6)'
+            }}
+          >
+            Foto do Veículo
+          </Typography>
+        </legend>
+
+        <Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          padding="1rem"
+          gap="1rem"
+        >
+          {movie.poster && (
+            <img 
+              alt={movie.title} 
+              src={`${import.meta.env.VITE_SUPABASE_STORAGE_URL}/${movie.poster}`} 
+              style={{
+                width: '320px'
+              }}
+            />
+          )}
+          <LoadingButton
+            variant="outlined"
+            component="label"
+            loading={loading}
+          >
+            <BackupOutlinedIcon 
+              sx={{
+                marginRight: '1rem'
+              }} 
+            />
+            Escolher Imagem
+            <input type="file" hidden onChange={handleChangeFile} />
+          </LoadingButton>
+        </Stack>
+      </fieldset>
     </SideForm>
   )
 }
